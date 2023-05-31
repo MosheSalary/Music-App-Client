@@ -1,6 +1,7 @@
 package com.example.onlinemusicappclient.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.onlinemusicappclient.Model.Upload;
 import com.example.onlinemusicappclient.R;
+import com.example.onlinemusicappclient.SongsActivity;
 
 import java.util.List;
 
@@ -49,6 +51,21 @@ private List<Upload> uploads;
         holder.tv_book_title.setText(upload.getName());
 
         Glide.with(mContext).load(upload.getUrl()).into(holder.imd_book_thumnail);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, SongsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("songsCategory",upload.getSongsCategory());
+                mContext.startActivity(intent);
+
+
+
+
+
+            }
+        });
 
 
     }

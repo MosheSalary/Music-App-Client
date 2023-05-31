@@ -10,6 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/recyclerview"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
@@ -26,5 +27,13 @@
         >
 
     </ProgressBar>
+    <com.example.jean.jcplayer.view.JcPlayerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/jcplayer"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        >
 
+    </com.example.jean.jcplayer.view.JcPlayerView>
 </RelativeLayout>
