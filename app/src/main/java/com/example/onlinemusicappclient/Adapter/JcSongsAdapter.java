@@ -18,12 +18,13 @@ import com.example.onlinemusicappclient.R;
 import java.util.List;
 
 public class JcSongsAdapter extends RecyclerView.Adapter<JcSongsAdapter.SongsAdapterViewHolder> {
+    // do this also :)
     private int selectedPosition;
     private Context context;
-    private List<GetSongs> arrayListSongs;
+    private List<Song> arrayListSongs;
     private RecycleItemClickListener listener;
 
-    public JcSongsAdapter(Context context, List<GetSongs> arrayListSongs, RecycleItemClickListener listener) {
+    public JcSongsAdapter(Context context, List<Song> arrayListSongs, RecycleItemClickListener listener) {
         this.context = context;
         this.arrayListSongs = arrayListSongs;
         this.listener = listener;
@@ -38,7 +39,7 @@ public class JcSongsAdapter extends RecyclerView.Adapter<JcSongsAdapter.SongsAda
 
     @Override
     public void onBindViewHolder(@NonNull SongsAdapterViewHolder holder, int position) {
-        GetSongs song = arrayListSongs.get(position);
+        Song song = arrayListSongs.get(position);
 
         if (song != null) {
             if (selectedPosition == position) {
@@ -50,9 +51,9 @@ public class JcSongsAdapter extends RecyclerView.Adapter<JcSongsAdapter.SongsAda
             }
         }
 
-        holder.tv_title.setText(song.getSongTitle());
+        holder.tv_title.setText(song.getTitle());
         holder.tv_artist.setText(song.getArtist());
-        String duration = Utility.convertDuration(Long.parseLong(song.getSongDuration()));
+        String duration = Utility.convertDuration(Long.parseLong(song.getDurationInSeconds()));
         holder.tv_duration.setText(duration);
 
         holder.bind(song, listener);
@@ -76,7 +77,7 @@ public class JcSongsAdapter extends RecyclerView.Adapter<JcSongsAdapter.SongsAda
             iv_play_active = itemView.findViewById(R.id.iv_player_active);
         }
 
-        public void bind(GetSongs song, RecycleItemClickListener listener) {
+        public void bind(Song song, RecycleItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -87,7 +88,7 @@ public class JcSongsAdapter extends RecyclerView.Adapter<JcSongsAdapter.SongsAda
     }
 
     public interface RecycleItemClickListener {
-        void onClickListener(GetSongs song, int position);
+        void onClickListener(Song song, int position);
     }
 
     public int getSelectedPosition() {

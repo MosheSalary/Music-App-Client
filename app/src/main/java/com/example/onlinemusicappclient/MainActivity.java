@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView;
-    RecyclerViewAdapter adapter;
-    DatabaseReference mDatabase;
-    ProgressDialog progressDialog;
+    // Also this mate !
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
+    private DatabaseReference mDatabase;
+    private ProgressDialog progressDialog;
     private List<Upload> uploads;
 
     @Override
@@ -32,37 +32,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initializeViews();
+        setupRecyclerView();
+        setupProgressDialog();
 
-        recyclerView = findViewById(R.id.recyclerview_id);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        progressDialog = new ProgressDialog(this);
         uploads = new ArrayList<>();
-        progressDialog.setMessage("please wait ! ! !");
         mDatabase = FirebaseDatabase.getInstance().getReference("uploads");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 progressDialog.dismiss();
-                for(DataSnapshot postsnapshot : snapshot.getChildren()){
-                    Upload upload = postsnapshot.getValue(Upload.class);
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Upload upload = postSnapshot.getValue(Upload.class);
                     uploads.add(upload);
                 }
-                adapter = new RecyclerViewAdapter(getApplicationContext(),uploads);
+                adapter = new RecyclerViewAdapter(getApplicationContext(), uploads);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
                 progressDialog.dismiss();
-
             }
         });
+    }
 
+    private void initializeViews() {
+        recyclerView = findViewById(R.id.recyclerview_id);
+    }
 
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+    }
 
+    private void setupProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
     }
 }
